@@ -1,13 +1,33 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useCartStore } from "@/store/cart-store";
+import { useAuth } from "@/hooks/useAuth";
 import { productImages } from "@/data/product-images";
 import { formatPrice } from "@/lib/format";
 import { Minus, Plus, Trash2, ShoppingBag } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "@/hooks/use-toast";
 
 const Cart = () => {
   const { items, updateQuantity, removeItem, totalPrice, clearCart } = useCartStore();
+  const { user } = useAuth();
+  const navigate = useNavigate();
+
+  const handleCheckout = () => {
+    if (!user) {
+      toast({
+        title: "Sign in required",
+        description: "Please sign in or create an account before checkout.",
+        variant: "destructive",
+      });
+      navigate("/auth");
+      return;
+    }
+    toast({
+      title: "Checkout coming soon",
+      description: "Payment integration with Muno Pay is being set up.",
+    });
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -77,8 +97,11 @@ const Cart = () => {
                   <span>{formatPrice(totalPrice())}</span>
                 </div>
               </div>
-              <button className="w-full py-3.5 rounded-lg font-medium text-sm bg-primary text-primary-foreground hover:opacity-90 transition-opacity">
-                Proceed to Checkout
+              <button
+                onClick={handleCheckout}
+                className="w-full py-3.5 rounded-lg font-medium text-sm bg-primary text-primary-foreground hover:opacity-90 transition-opacity"
+              >
+                {user ? "Proceed to Checkout" : "Sign In to Checkout"}
               </button>
               <button onClick={clearCart} className="w-full mt-3 py-2 text-xs text-muted-foreground hover:text-destructive transition-colors">
                 Clear Cart
