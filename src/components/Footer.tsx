@@ -1,4 +1,6 @@
 import { Link } from "react-router-dom";
+import logoLight from "@/assets/logo-light.jpeg";
+import logoDark from "@/assets/logo-dark.jpeg";
 
 const Footer = () => {
   return (
@@ -6,9 +8,9 @@ const Footer = () => {
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
           <div>
-            <h3 className="font-display text-lg font-bold mb-4">
-              Christian<span className="text-primary"> Gift Shop</span>
-            </h3>
+            <Link to="/" className="inline-block mb-4">
+              <img src={logoDark} alt="Christian Gift Shop" className="h-12" />
+            </Link>
             <p className="text-sm opacity-70 font-body leading-relaxed">
               Curating thoughtful gifts for every celebration. Making moments unforgettable since 2024.
             </p>
@@ -16,9 +18,18 @@ const Footer = () => {
           <div>
             <h4 className="font-display text-sm font-semibold mb-4">Quick Links</h4>
             <div className="flex flex-col gap-2">
-              {["Shop", "Occasions", "About", "Contact"].map((l) => (
-                <Link key={l} to={`/${l.toLowerCase()}`} className="text-sm opacity-70 hover:opacity-100 transition-opacity font-body">
-                  {l}
+              {[
+                { label: "Shop", to: "/shop" },
+                { label: "Occasions", to: "/occasions" },
+                { label: "About", to: "/about" },
+                { label: "Wishlist", to: "/wishlist" },
+              ].map((l) => (
+                <Link
+                  key={l.label}
+                  to={l.to}
+                  className="text-sm opacity-70 hover:opacity-100 transition-opacity font-body"
+                >
+                  {l.label}
                 </Link>
               ))}
             </div>

@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { categories } from "@/data/shop-data";
+import { Link } from "react-router-dom";
 
 const CategoriesSection = () => {
   return (
@@ -19,11 +20,15 @@ const CategoriesSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
-              className="group cursor-pointer bg-card rounded-xl p-6 text-center border border-border hover:border-primary/30 hover:shadow-lg transition-all duration-300"
             >
-              <span className="text-3xl mb-3 block">{cat.icon}</span>
-              <h3 className="font-display text-sm font-semibold text-foreground mb-1">{cat.name}</h3>
-              <p className="text-xs text-muted-foreground">{cat.count} items</p>
+              <Link
+                to={`/shop?category=${cat.id}`}
+                className="group block cursor-pointer bg-card rounded-xl p-6 text-center border border-border hover:border-primary/30 hover:shadow-lg transition-all duration-300"
+              >
+                <span className="text-3xl mb-3 block">{cat.icon}</span>
+                <h3 className="font-display text-sm font-semibold text-foreground mb-1">{cat.name}</h3>
+                <p className="text-xs text-muted-foreground">{cat.count} items</p>
+              </Link>
             </motion.div>
           ))}
         </div>

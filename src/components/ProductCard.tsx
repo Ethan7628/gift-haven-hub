@@ -2,9 +2,12 @@ import { Product } from "@/types/shop";
 import { productImages } from "@/data/product-images";
 import { formatPrice } from "@/lib/format";
 import { useCartStore } from "@/store/cart-store";
-import { Star, ShoppingBag } from "lucide-react";
+import { useWishlistStore } from "@/store/wishlist-store";
+import { useAuth } from "@/hooks/useAuth";
+import { Star, ShoppingBag, Heart } from "lucide-react";
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "@/hooks/use-toast";
 
 interface ProductCardProps {
   product: Product;
@@ -13,7 +16,32 @@ interface ProductCardProps {
 
 const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
   const addItem = useCartStore((s) => s.addItem);
+  const { user } = useAuth();
+  const { isWishlisted, toggleItem } = useWishlistStore();
+  const navigate = useNavigate();
   const image = productImages[product.id] || "/placeholder.svg";
+  const wishlisted = isWishlisted(product.id);
+
+  const handleWishlist = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!user) {
+      toast({
+        title: "Sign in required",
+        description: "Please sign in to save gifts to your wishlist.",
+        variant: "destructive",
+      });
+      navigate("/auth");
+      return;
+    }
+    await toggleItem(user.id, product.id);
+    toast({
+      title: wishlisted ? "Removed from wishlist" : "Added to wishlist",
+      description: wishlisted
+        ? `${product.name} removed from your wishlist.`
+        : `${product.name} saved to your wishlist!`,
+    });
+  };
 
   return (
     <motion.div
@@ -39,6 +67,19 @@ const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
             </span>
           )}
         </Link>
+
+        <button
+          onClick={handleWishlist}
+          className="absolute top-3 right-3 p-2 rounded-full bg-card/80 backdrop-blur-sm border border-border hover:bg-card transition-colors"
+          aria-label={wishlisted ? "Remove from wishlist" : "Add to wishlist"}
+        >
+          <Heart
+            className={`w-4 h-4 transition-colors ${
+              wishlisted ? "fill-destructive text-destructive" : "text-muted-foreground"
+            }`}
+          />
+        </button>
+
         <div className="p-4">
           <Link to={`/product/${product.id}`}>
             <h3 className="font-display text-base font-semibold text-foreground mb-1 group-hover:text-primary transition-colors">

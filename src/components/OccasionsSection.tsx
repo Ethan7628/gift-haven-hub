@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { occasions } from "@/data/shop-data";
+import { Link } from "react-router-dom";
 
 const OccasionsSection = () => {
   return (
@@ -13,17 +14,21 @@ const OccasionsSection = () => {
         </div>
         <div className="flex flex-wrap justify-center gap-4">
           {occasions.map((occ, i) => (
-            <motion.button
+            <motion.div
               key={occ.id}
               initial={{ opacity: 0, scale: 0.9 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.08 }}
-              className="flex items-center gap-2 px-6 py-3 rounded-full bg-card border border-border hover:border-primary/40 hover:shadow-md transition-all font-body text-sm font-medium text-foreground"
             >
-              <span className="text-lg">{occ.emoji}</span>
-              {occ.name}
-            </motion.button>
+              <Link
+                to={`/shop?occasion=${occ.id}`}
+                className="flex items-center gap-2 px-6 py-3 rounded-full bg-card border border-border hover:border-primary/40 hover:shadow-md transition-all font-body text-sm font-medium text-foreground"
+              >
+                <span className="text-lg">{occ.emoji}</span>
+                {occ.name}
+              </Link>
+            </motion.div>
           ))}
         </div>
       </div>
