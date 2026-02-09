@@ -3,15 +3,14 @@ import Footer from "@/components/Footer";
 import ProductCard from "@/components/ProductCard";
 import { products, categories, occasions } from "@/data/shop-data";
 import { useSearchParams } from "react-router-dom";
-import { useState, useMemo } from "react";
-import { Search, X } from "lucide-react";
-import { Input } from "@/components/ui/input";
+import { useMemo } from "react";
+import { X } from "lucide-react";
 
 const Shop = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const categoryFilter = searchParams.get("category");
   const occasionFilter = searchParams.get("occasion");
-  const [searchQuery, setSearchQuery] = useState("");
+  
 
   const filtered = useMemo(() => {
     let result = products;
@@ -24,28 +23,17 @@ const Shop = () => {
       result = result.filter((p) => p.occasion.includes(occasionFilter));
     }
 
-    if (searchQuery.trim()) {
-      const q = searchQuery.toLowerCase();
-      result = result.filter(
-        (p) =>
-          p.name.toLowerCase().includes(q) ||
-          p.description.toLowerCase().includes(q) ||
-          p.category.toLowerCase().includes(q)
-      );
-    }
-
     return result;
-  }, [categoryFilter, occasionFilter, searchQuery]);
+  }, [categoryFilter, occasionFilter]);
 
   const activeCategory = categories.find((c) => c.id === categoryFilter);
   const activeOccasion = occasions.find((o) => o.id === occasionFilter);
 
   const clearFilters = () => {
     setSearchParams({});
-    setSearchQuery("");
   };
 
-  const hasFilters = categoryFilter || occasionFilter || searchQuery.trim();
+  const hasFilters = categoryFilter || occasionFilter;
 
   return (
     <div className="min-h-screen bg-background">
@@ -64,17 +52,7 @@ const Shop = () => {
             : "Browse our complete collection of thoughtful gifts"}
         </p>
 
-        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-8">
-          <div className="relative flex-1 max-w-sm">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-            <Input
-              placeholder="Search gifts..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10"
-            />
-          </div>
-
+        <div className="flex items-center gap-2 flex-wrap mb-8">
           {hasFilters && (
             <div className="flex items-center gap-2 flex-wrap">
               {activeCategory && (
