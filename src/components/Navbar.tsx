@@ -59,7 +59,7 @@ const Navbar = () => {
     : [];
 
   const navLinks = [
-    { to: "/", label: "Home" },
+    
     { to: "/shop", label: "Shop" },
     { to: "/occasions", label: "Occasions" },
     { to: "/about", label: "About" },
