@@ -12,7 +12,11 @@ import { formatPrice } from "@/lib/format";
 import logoLight from "@/assets/logo-light.jpeg";
 import logoDark from "@/assets/logo-dark.jpeg";
 
-const Navbar = () => {
+interface NavbarProps {
+  showSearch?: boolean;
+}
+
+const Navbar = ({ showSearch = false }: NavbarProps) => {
   const totalItems = useCartStore((s) => s.totalItems());
   const { user, isAdmin, signOut } = useAuth();
   const { items, fetchWishlist, loaded } = useWishlistStore();
@@ -98,7 +102,7 @@ const Navbar = () => {
 
         {/* Inline search */}
         <AnimatePresence>
-          {searchOpen && (
+          {showSearch && searchOpen && (
             <motion.div
               ref={searchContainerRef}
               initial={{ width: 0, opacity: 0 }}
@@ -167,13 +171,15 @@ const Navbar = () => {
         </AnimatePresence>
 
         <div className="flex items-center gap-2">
-          <button
-            onClick={() => setSearchOpen(!searchOpen)}
-            className="p-2 text-muted-foreground hover:text-foreground transition-colors"
-            aria-label="Search"
-          >
-            <Search className="w-5 h-5" />
-          </button>
+          {showSearch && (
+            <button
+              onClick={() => setSearchOpen(!searchOpen)}
+              className="p-2 text-muted-foreground hover:text-foreground transition-colors"
+              aria-label="Search"
+            >
+              <Search className="w-5 h-5" />
+            </button>
+          )}
 
           <Link
             to="/wishlist"
