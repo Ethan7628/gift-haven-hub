@@ -35,8 +35,8 @@ const Navbar = () => {
       <header className="sticky top-0 z-50 bg-card/80 backdrop-blur-md border-b border-border">
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
           <Link to="/" className="flex items-center">
-            <img src={logoLight} alt="Christian Gift Shop" className="h-10 dark:hidden" />
-            <img src={logoDark} alt="Christian Gift Shop" className="h-10 hidden dark:block" />
+            <img src={logoLight} alt="Christian Gift Shop" className="h-12 dark:hidden" />
+            <img src={logoDark} alt="Christian Gift Shop" className="h-12 hidden dark:block" />
           </Link>
 
           <nav className="hidden md:flex items-center gap-8">
