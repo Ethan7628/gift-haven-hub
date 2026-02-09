@@ -37,10 +37,19 @@ const Footer = () => {
           <div>
             <h4 className="font-display text-sm font-semibold mb-4">Customer Care</h4>
             <div className="flex flex-col gap-2">
-              {["Delivery Info", "Returns", "FAQ", "Track Order"].map((l) => (
-                <span key={l} className="text-sm opacity-70 font-body cursor-pointer hover:opacity-100 transition-opacity">
-                  {l}
-                </span>
+              {[
+                { label: "Delivery Info", to: "/about" },
+                { label: "Returns", to: "/about" },
+                { label: "FAQ", to: "/about" },
+                { label: "Track Order", to: "/about" },
+              ].map((l) => (
+                <Link
+                  key={l.label}
+                  to={l.to}
+                  className="text-sm opacity-70 hover:opacity-100 transition-opacity font-body"
+                >
+                  {l.label}
+                </Link>
               ))}
             </div>
           </div>

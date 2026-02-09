@@ -37,7 +37,7 @@ const Shop = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Navbar />
+      <Navbar showSearch />
       <main className="container mx-auto px-4 py-12">
         <h1 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-2">
           {activeCategory
