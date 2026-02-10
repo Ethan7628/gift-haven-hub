@@ -2,7 +2,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useCartStore } from "@/store/cart-store";
 import { useAuth } from "@/hooks/useAuth";
-import { productImages } from "@/data/product-images";
+
 import { formatPrice } from "@/lib/format";
 import { Minus, Plus, Trash2, ShoppingBag } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
@@ -50,7 +50,7 @@ const Cart = () => {
           <div className="grid lg:grid-cols-3 gap-10">
             <div className="lg:col-span-2 space-y-4">
               {items.map((item) => {
-                const image = productImages[item.product.id] || "/placeholder.svg";
+                const image = item.product.image || "/placeholder.svg";
                 return (
                   <div key={item.product.id} className="flex gap-4 p-4 bg-card border border-border rounded-xl">
                     <img src={image} alt={item.product.name} className="w-24 h-24 rounded-lg object-cover" />
