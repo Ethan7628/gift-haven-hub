@@ -56,8 +56,9 @@ const Footer = () => {
           <div>
             <h4 className="font-display text-sm font-semibold mb-4">Contact</h4>
             <div className="flex flex-col gap-2 text-sm opacity-70 font-body">
-              <span>hello@christiangiftshop.com</span>
-              <span>+256 700 000 000</span>
+              <span>lytonerica@gmail.com</span>
+              <span>+256 780363863</span>
+              <span>+256 750227122</span>
               <span>Kampala, Uganda</span>
             </div>
           </div>
