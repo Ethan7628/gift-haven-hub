@@ -1,8 +1,10 @@
 import { motion } from "framer-motion";
-import { categories } from "@/data/shop-data";
+import { useCategories } from "@/hooks/useProducts";
 import { Link } from "react-router-dom";
 
 const CategoriesSection = () => {
+  const { data: categories = [] } = useCategories();
+
   return (
     <section className="py-20 bg-warm-gradient">
       <div className="container mx-auto px-4">

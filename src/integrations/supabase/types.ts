@@ -14,6 +14,113 @@ export type Database = {
   }
   public: {
     Tables: {
+      categories: {
+        Row: {
+          count: number
+          created_at: string
+          icon: string
+          id: string
+          name: string
+        }
+        Insert: {
+          count?: number
+          created_at?: string
+          icon?: string
+          id: string
+          name: string
+        }
+        Update: {
+          count?: number
+          created_at?: string
+          icon?: string
+          id?: string
+          name?: string
+        }
+        Relationships: []
+      }
+      occasions: {
+        Row: {
+          created_at: string
+          emoji: string
+          id: string
+          name: string
+        }
+        Insert: {
+          created_at?: string
+          emoji?: string
+          id: string
+          name: string
+        }
+        Update: {
+          created_at?: string
+          emoji?: string
+          id?: string
+          name?: string
+        }
+        Relationships: []
+      }
+      products: {
+        Row: {
+          badge: string | null
+          category: string
+          created_at: string
+          description: string
+          id: string
+          image_url: string
+          name: string
+          occasion: string[]
+          original_price: number | null
+          price: number
+          rating: number
+          recipient: string[]
+          reviews: number
+          updated_at: string
+          variants: Json | null
+        }
+        Insert: {
+          badge?: string | null
+          category: string
+          created_at?: string
+          description?: string
+          id?: string
+          image_url?: string
+          name: string
+          occasion?: string[]
+          original_price?: number | null
+          price: number
+          rating?: number
+          recipient?: string[]
+          reviews?: number
+          updated_at?: string
+          variants?: Json | null
+        }
+        Update: {
+          badge?: string | null
+          category?: string
+          created_at?: string
+          description?: string
+          id?: string
+          image_url?: string
+          name?: string
+          occasion?: string[]
+          original_price?: number | null
+          price?: number
+          rating?: number
+          recipient?: string[]
+          reviews?: number
+          updated_at?: string
+          variants?: Json | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "products_category_fkey"
+            columns: ["category"]
+            isOneToOne: false
+            referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           avatar_url: string | null

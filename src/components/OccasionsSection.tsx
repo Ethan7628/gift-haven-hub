@@ -1,8 +1,10 @@
 import { motion } from "framer-motion";
-import { occasions } from "@/data/shop-data";
+import { useOccasions } from "@/hooks/useProducts";
 import { Link } from "react-router-dom";
 
 const OccasionsSection = () => {
+  const { data: occasions = [] } = useOccasions();
+
   return (
     <section className="py-20 bg-warm-gradient">
       <div className="container mx-auto px-4">
