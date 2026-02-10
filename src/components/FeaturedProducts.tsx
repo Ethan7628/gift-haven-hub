@@ -1,9 +1,11 @@
-import { products } from "@/data/shop-data";
+import { useProducts } from "@/hooks/useProducts";
 import ProductCard from "./ProductCard";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 
 const FeaturedProducts = () => {
+  const { data: products = [] } = useProducts();
+
   return (
     <section className="py-20">
       <div className="container mx-auto px-4">

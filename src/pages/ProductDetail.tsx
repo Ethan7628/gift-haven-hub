@@ -1,6 +1,5 @@
 import { useParams, Link } from "react-router-dom";
-import { products } from "@/data/shop-data";
-import { productImages } from "@/data/product-images";
+import { useProducts } from "@/hooks/useProducts";
 import { formatPrice } from "@/lib/format";
 import { useCartStore } from "@/store/cart-store";
 import { Star, ShoppingBag, ArrowLeft, Minus, Plus } from "lucide-react";
@@ -10,10 +9,23 @@ import Footer from "@/components/Footer";
 
 const ProductDetail = () => {
   const { id } = useParams();
+  const { data: products = [], isLoading } = useProducts();
   const product = products.find((p) => p.id === id);
   const addItem = useCartStore((s) => s.addItem);
   const [qty, setQty] = useState(1);
   const [selectedVariants, setSelectedVariants] = useState<Record<string, string>>({});
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Navbar />
+        <div className="container mx-auto px-4 py-20 text-center">
+          <p className="text-muted-foreground">Loading...</p>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
 
   if (!product) {
     return (
@@ -28,7 +40,7 @@ const ProductDetail = () => {
     );
   }
 
-  const image = productImages[product.id] || "/placeholder.svg";
+  const image = product.image || "/placeholder.svg";
 
   return (
     <div className="min-h-screen bg-background">
@@ -60,11 +72,11 @@ const ProductDetail = () => {
             </div>
             <p className="text-muted-foreground font-body leading-relaxed mb-8">{product.description}</p>
 
-            {product.variants?.map((v) => (
+            {product.variants?.map((v: any) => (
               <div key={v.type} className="mb-6">
                 <label className="text-sm font-medium text-foreground mb-2 block">{v.type}</label>
                 <div className="flex flex-wrap gap-2">
-                  {v.options.map((opt) => (
+                  {v.options.map((opt: string) => (
                     <button
                       key={opt}
                       onClick={() => setSelectedVariants((prev) => ({ ...prev, [v.type]: opt }))}

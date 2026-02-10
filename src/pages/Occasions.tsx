@@ -1,11 +1,13 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { occasions } from "@/data/shop-data";
-import { products } from "@/data/shop-data";
+import { useOccasions, useProducts } from "@/hooks/useProducts";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 
 const Occasions = () => {
+  const { data: occasions = [] } = useOccasions();
+  const { data: products = [] } = useProducts();
+
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
