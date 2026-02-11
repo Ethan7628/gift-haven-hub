@@ -9,7 +9,8 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
           <div>
             <Link to="/" className="inline-block mb-4">
-              <img src={logoDark} alt="Christian Gift Shop" className="h-12" />
+              <img src={logoDark} alt="Christian Gift Shop" className="h-12 dark:hidden" />
+              <img src={logoLight} alt="Christian Gift Shop" className="h-12 hidden dark:block" />
             </Link>
             <p className="text-sm opacity-70 font-body leading-relaxed">
               Curating thoughtful gifts for every celebration. Making moments unforgettable since 2024.
