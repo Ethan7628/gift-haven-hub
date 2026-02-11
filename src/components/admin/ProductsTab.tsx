@@ -23,6 +23,7 @@ interface ProductForm {
   badge: string;
   description: string;
   image_url: string;
+  rating: string;
 }
 
 const emptyForm: ProductForm = {
@@ -35,6 +36,7 @@ const emptyForm: ProductForm = {
   badge: "",
   description: "",
   image_url: "/placeholder.svg",
+  rating: "0",
 };
 
 const recipientOptions = ["him", "her", "mom", "kids"];
@@ -64,6 +66,7 @@ const ProductsTab = ({ products, categories, occasions }: ProductsTabProps) => {
       badge: p.badge || "",
       description: p.description,
       image_url: p.image || "/placeholder.svg",
+      rating: String(p.rating),
     });
     setModalOpen(true);
   };
@@ -84,6 +87,7 @@ const ProductsTab = ({ products, categories, occasions }: ProductsTabProps) => {
       badge: form.badge.trim() || null,
       description: form.description.trim(),
       image_url: form.image_url.trim() || "/placeholder.svg",
+      rating: parseFloat(form.rating) || 0,
     };
 
     if (editingId) {
@@ -220,9 +224,15 @@ const ProductsTab = ({ products, categories, occasions }: ProductsTabProps) => {
                   ))}
                 </div>
               </div>
-              <div>
-                <label className="text-sm font-medium text-foreground mb-1 block">Badge</label>
-                <input value={form.badge} onChange={(e) => setForm({ ...form, badge: e.target.value })} placeholder="e.g. Bestseller, New, Popular" className="w-full px-3 py-2 rounded-lg border border-border bg-background text-foreground text-sm" />
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="text-sm font-medium text-foreground mb-1 block">Rating (0-5)</label>
+                  <input type="number" min="0" max="5" step="0.1" value={form.rating} onChange={(e) => setForm({ ...form, rating: e.target.value })} className="w-full px-3 py-2 rounded-lg border border-border bg-background text-foreground text-sm" />
+                </div>
+                <div>
+                  <label className="text-sm font-medium text-foreground mb-1 block">Badge</label>
+                  <input value={form.badge} onChange={(e) => setForm({ ...form, badge: e.target.value })} placeholder="e.g. Bestseller" className="w-full px-3 py-2 rounded-lg border border-border bg-background text-foreground text-sm" />
+                </div>
               </div>
               <div>
                 <label className="text-sm font-medium text-foreground mb-1 block">Image URL</label>
