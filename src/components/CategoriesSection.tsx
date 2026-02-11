@@ -1,9 +1,11 @@
 import { motion } from "framer-motion";
 import { useCategories } from "@/hooks/useProducts";
+import { useCategoryCounts } from "@/hooks/useCategoryCounts";
 import { Link } from "react-router-dom";
 
 const CategoriesSection = () => {
   const { data: categories = [] } = useCategories();
+  const { data: counts = {} } = useCategoryCounts();
 
   return (
     <section className="py-20 bg-warm-gradient">
@@ -29,7 +31,7 @@ const CategoriesSection = () => {
               >
                 <span className="text-3xl mb-3 block">{cat.icon}</span>
                 <h3 className="font-display text-sm font-semibold text-foreground mb-1">{cat.name}</h3>
-                <p className="text-xs text-muted-foreground">{cat.count} items</p>
+                <p className="text-xs text-muted-foreground">{counts[cat.id] ?? 0} items</p>
               </Link>
             </motion.div>
           ))}

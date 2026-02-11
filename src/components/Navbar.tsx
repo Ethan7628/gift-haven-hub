@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { ShoppingBag, Heart, Search, Menu, X, User, LogOut, Shield } from "lucide-react";
+import { ShoppingBag, Heart, Search, Menu, X, User, LogOut, Shield, Package } from "lucide-react";
 import { useCartStore } from "@/store/cart-store";
 import { useAuth } from "@/hooks/useAuth";
 import { useWishlistStore } from "@/store/wishlist-store";
@@ -135,6 +135,7 @@ const Navbar = ({ showSearch = false }: NavbarProps) => {
                     </div>
                     <div className="py-1">
                       <Link to="/wishlist" onClick={() => setUserMenuOpen(false)} className="flex items-center gap-2 px-4 py-2.5 text-sm text-foreground hover:bg-muted transition-colors"><Heart className="w-4 h-4" /> Wishlist</Link>
+                      <Link to="/orders" onClick={() => setUserMenuOpen(false)} className="flex items-center gap-2 px-4 py-2.5 text-sm text-foreground hover:bg-muted transition-colors"><Package className="w-4 h-4" /> My Orders</Link>
                       {isAdmin && (
                         <Link to="/admin" onClick={() => setUserMenuOpen(false)} className="flex items-center gap-2 px-4 py-2.5 text-sm text-foreground hover:bg-muted transition-colors"><Shield className="w-4 h-4" /> Admin Panel</Link>
                       )}
