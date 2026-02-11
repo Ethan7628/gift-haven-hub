@@ -38,10 +38,10 @@ const Footer = () => {
             <h4 className="font-display text-sm font-semibold mb-4">Customer Care</h4>
             <div className="flex flex-col gap-2">
               {[
-                { label: "Delivery Info", to: "/about" },
-                { label: "Returns", to: "/about" },
-                { label: "FAQ", to: "/about" },
-                { label: "Track Order", to: "/about" },
+                { label: "Delivery Info", to: "/delivery-info" },
+                { label: "Returns", to: "/returns" },
+                { label: "FAQ", to: "/faq" },
+                { label: "Track Order", to: "/orders" },
               ].map((l) => (
                 <Link
                   key={l.label}

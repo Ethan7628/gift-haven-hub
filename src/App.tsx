@@ -12,6 +12,10 @@ import About from "./pages/About";
 import Occasions from "./pages/Occasions";
 import Wishlist from "./pages/Wishlist";
 import Admin from "./pages/Admin";
+import Orders from "./pages/Orders";
+import DeliveryInfo from "./pages/DeliveryInfo";
+import FAQ from "./pages/FAQ";
+import Returns from "./pages/Returns";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -32,6 +36,10 @@ const App = () => (
           <Route path="/occasions" element={<Occasions />} />
           <Route path="/wishlist" element={<Wishlist />} />
           <Route path="/admin" element={<Admin />} />
+          <Route path="/orders" element={<Orders />} />
+          <Route path="/delivery-info" element={<DeliveryInfo />} />
+          <Route path="/faq" element={<FAQ />} />
+          <Route path="/returns" element={<Returns />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
