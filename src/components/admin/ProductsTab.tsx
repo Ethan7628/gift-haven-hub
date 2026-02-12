@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useQueryClient } from "@tanstack/react-query";
 import { formatPrice } from "@/lib/format";
-import { Plus, Edit, Trash2, X } from "lucide-react";
+import { Plus, Edit, Trash2, X, Upload, Image } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import { motion } from "framer-motion";
 import type { Product, Category, Occasion } from "@/types/shop";
@@ -47,10 +47,14 @@ const ProductsTab = ({ products, categories, occasions }: ProductsTabProps) => {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [form, setForm] = useState<ProductForm>(emptyForm);
   const [saving, setSaving] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const openAdd = () => {
     setEditingId(null);
     setForm(emptyForm);
+    setImagePreview(null);
     setModalOpen(true);
   };
 
@@ -68,7 +72,35 @@ const ProductsTab = ({ products, categories, occasions }: ProductsTabProps) => {
       image_url: p.image || "/placeholder.svg",
       rating: String(p.rating),
     });
+    setImagePreview(p.image || null);
     setModalOpen(true);
+  };
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (!file.type.startsWith("image/")) {
+      toast({ title: "Invalid file", description: "Please select an image file.", variant: "destructive" });
+      return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      toast({ title: "File too large", description: "Maximum file size is 5MB.", variant: "destructive" });
+      return;
+    }
+    setUploading(true);
+    const ext = file.name.split(".").pop();
+    const fileName = `${crypto.randomUUID()}.${ext}`;
+    const { error } = await supabase.storage.from("product-images").upload(fileName, file);
+    if (error) {
+      toast({ title: "Upload failed", description: error.message, variant: "destructive" });
+      setUploading(false);
+      return;
+    }
+    const { data: urlData } = supabase.storage.from("product-images").getPublicUrl(fileName);
+    setForm((prev) => ({ ...prev, image_url: urlData.publicUrl }));
+    setImagePreview(urlData.publicUrl);
+    setUploading(false);
+    toast({ title: "Image uploaded" });
   };
 
   const handleSave = async () => {
@@ -235,8 +267,33 @@ const ProductsTab = ({ products, categories, occasions }: ProductsTabProps) => {
                 </div>
               </div>
               <div>
-                <label className="text-sm font-medium text-foreground mb-1 block">Image URL</label>
-                <input value={form.image_url} onChange={(e) => setForm({ ...form, image_url: e.target.value })} className="w-full px-3 py-2 rounded-lg border border-border bg-background text-foreground text-sm" />
+                <label className="text-sm font-medium text-foreground mb-1 block">Product Image</label>
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageUpload}
+                  className="hidden"
+                />
+                <div
+                  onClick={() => fileInputRef.current?.click()}
+                  className="w-full border-2 border-dashed border-border rounded-lg p-4 flex flex-col items-center justify-center gap-2 cursor-pointer hover:border-primary/50 transition-colors"
+                >
+                  {uploading ? (
+                    <p className="text-sm text-muted-foreground">Uploading...</p>
+                  ) : imagePreview ? (
+                    <div className="relative w-full">
+                      <img src={imagePreview} alt="Preview" className="w-full h-32 object-cover rounded-lg" />
+                      <p className="text-xs text-muted-foreground mt-2 text-center">Click to change image</p>
+                    </div>
+                  ) : (
+                    <>
+                      <Upload className="w-8 h-8 text-muted-foreground" />
+                      <p className="text-sm text-muted-foreground">Click to upload image</p>
+                      <p className="text-xs text-muted-foreground">Max 5MB • JPG, PNG, WebP</p>
+                    </>
+                  )}
+                </div>
               </div>
               <div>
                 <label className="text-sm font-medium text-foreground mb-1 block">Description</label>
